@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: advertise-service
+  config:
+    name: advertise-service
+  cloud:
+    config:
+      uri: ${CONFIG_SERVER_URL:http://localhost:8888}
+      password: ${CONFIG_SERVER_PASSWORD:12345}
+      username: ${CONFIG_SERVER_USERNAME:user}
+#        fail-fast: true

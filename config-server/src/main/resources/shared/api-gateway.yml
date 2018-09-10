@@ -1,0 +1,39 @@
+info:
+component: Api Gateway
+
+server:
+  port: ${PORT:${vcap.application.port:8765}}
+
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 120000
+  eureka:
+    enabled: true
+
+zuul:
+  ignoredServices: '*'
+  routes:
+    uaa:
+        path: /uaa/**
+        sensitiveHeaders:
+        serviceId: uaa-server
+    advertise-service:
+      path: /advertise-service/**
+      serviceId: advertise-service
+
+security:
+  sessions: stateless
+  ignored: /css/**,/js/**,/favicon.ico,/webjars/**,swagger-ui.html, /swagger-resources/**,/captcha/**,/otp/**
+  basic:
+    enabled: false
+  oauth2:
+    resource:
+      userInfoUri: ${USER_INFO_URI:http://localhost:9999}/user
+      preferTokenInfo: false
+    client:
+      clientId: ${SERVICE_CLIENT_NAME:service}
+      clientSecret: ${SERVICE_PASSWORD:service}
+      accessTokenUri: ${ACCESS_TOKEN_URI:http://localhost:9999}/oauth/token
+      userAuthorizationUri: ${USER_AUTHORIZATION_URI:http://localhost:9999}/oauth/authorize
+      grant-type: client_credentials
+

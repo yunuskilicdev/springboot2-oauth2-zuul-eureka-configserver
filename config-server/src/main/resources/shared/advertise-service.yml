@@ -1,0 +1,7 @@
+info:
+  component: Advertisement Service
+
+server:
+  port: ${PORT:${vcap.application.port:8901}}
+
+

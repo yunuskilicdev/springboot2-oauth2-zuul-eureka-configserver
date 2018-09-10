@@ -1,0 +1,24 @@
+info:
+  component: Discovery Server
+
+server:
+  port: ${PORT:${vcap.application.port:8761}}
+
+eureka:
+  client:
+    region: default
+    registerWithEureka: false
+    fetchRegistry: false
+    registryFetchIntervalSeconds: 5
+    availabilityZones:
+      default: ${APPLICATION_DOMAIN:${DOMAIN:defaultZone}}
+    serviceUrl:
+      defaultZone: ${vcap.services.eureka-service.credentials.uri:http://${DISCOVERY_SERVER_URL:localhost:8761}}/eureka/
+    server:
+      waitTimeInMsWhenSyncEmpty: 0
+security:
+  basic:
+    enabled: true
+  user:
+    name: ${EUREKA_USERNAME:user}
+    password: ${EUREKA_PASSWORD:12345}

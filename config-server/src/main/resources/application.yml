@@ -1,0 +1,50 @@
+info:
+  description: Config Server
+
+server:
+  port: ${PORT:${vcap.application.port:8888}}
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/shared
+
+eureka:
+  instance:
+    hostname: ${APPLICATION_DOMAIN:${spring.application.name}}
+    nonSecurePort: 8080
+  client:
+    serviceUrl:
+      defaultZone: ${vcap.services.eureka-service.credentials.uri:http://${EUREKA_USERNAME:user}:${EUREKA_PASSWORD:12345}@${DISCOVERY_SERVER_URL:localhost:8761}}/eureka/
+    healthcheck:
+      enabled: true
+    lease:
+      duration: 5
+    fetchRegistry: true
+
+security:
+  sessions: stateless
+  ignored: /css/**,/js/**,/favicon.ico,/webjars/**,swagger-ui.html, /swagger-resources/**,/captcha/**,/otp/**
+  user:
+    name: ${CONFIG_SERVER_USERNAME:user}
+    password: ${CONFIG_SERVER_PASSWORD:12345}
+  basic:
+    enabled: false
+  oauth2:
+    resource:
+      userInfoUri: ${USER_INFO_URI:http://localhost:9999}/user
+      preferTokenInfo: false
+    client:
+      clientId: ${SERVICE_CLIENT_NAME:service}
+      clientSecret: ${SERVICE_PASSWORD:service}
+      accessTokenUri: ${ACCESS_TOKEN_URI:http://localhost:9999}/oauth/token
+      userAuthorizationUri: ${USER_AUTHORIZATION_URI:http://localhost:9999}/oauth/authorize
+      grant-type: client_credentials
+
+

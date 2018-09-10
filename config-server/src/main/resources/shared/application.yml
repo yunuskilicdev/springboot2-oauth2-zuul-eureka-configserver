@@ -1,0 +1,21 @@
+ribbon:
+  ConnectTimeout: 20000
+  ReadTimeout: 240000
+  eureka:
+    enabled: true
+
+security:
+  sessions: stateless
+  ignored: /css/**,/js/**,/favicon.ico,/webjars/**,swagger-ui.html, /swagger-resources/**,/captcha/**,/otp/**
+  basic:
+    enabled: false
+  oauth2:
+    resource:
+      userInfoUri: ${USER_INFO_URI:http://localhost:9999}/uaa/user
+      preferTokenInfo: false
+    client:
+      clientId: ${SERVICE_CLIENT_NAME:service}
+      clientSecret: ${SERVICE_PASSWORD:service}
+      accessTokenUri: ${ACCESS_TOKEN_URI:http://localhost:9999}/uaa/oauth/token
+      userAuthorizationUri: ${USER_AUTHORIZATION_URI:http://localhost:9999}/uaa/oauth/authorize
+      grant-type: client_credentials

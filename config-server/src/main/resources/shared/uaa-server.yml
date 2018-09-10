@@ -1,0 +1,5 @@
+info:
+  component: Uaa Server
+
+server:
+  port: ${PORT:${vcap.application.port:9999}}
